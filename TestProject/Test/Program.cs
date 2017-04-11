@@ -10,29 +10,50 @@ namespace Test
 {
     class Program
     {
-        static bool done;
+        bool done;
+        string str = "";
         static object locker = new object();
+        static int balance = 1000;
+        static Random r = new Random();
         static void Main(string[] args)
         {
-
-            CreateFile("abcdefghijklmnopqrstuvwxyz");
-
-
+            Thread[] threads = new Thread[5];
+            for (int i = 0; i < 5; i++)
+            {
+                threads[i] = new Thread(new ThreadStart(ConsoleWrite));
+                threads[i].Name = "线程"+(i+1);
+                threads[i].IsBackground = true;
+            }
+            for (int i = 0; i < threads.Length; i++)
+            {
+                threads[i].Start();
+            }
         }
 
-        private static void x() {
+
+        static void ConsoleWrite() {
+            if (balance < 0)
+            { 
+                Console.WriteLine("余额不足。");
+                return;
+            }
             lock (locker)
             {
-                if (!done)
+                for (int i = 0; i < 100; i++)
                 {
-                    Console.WriteLine("Done：" + done);
-                    done = true;
+                    int num = r.Next(-10, 100);
+                    if (balance - num < 0)
+                    {
+                        Console.WriteLine("存款：{0}, 取现：{1}, 余额不足。", balance, num);
+                        return;
+                    }
+                    Console.WriteLine("存款：{0}, 取现：{1}, 余额：{2}。", balance, num, balance- num);
+                    balance = balance - num;
                 }
             }
-             
         }
 
-        private static void CreateFile(string str) {
+        private void CreateFile(string str) {
             string path = "d://test.txt";
             if (File.Exists(path)) {
                 File.Delete(path);
