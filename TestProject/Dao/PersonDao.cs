@@ -16,6 +16,9 @@ namespace Dao
         public class Person
         {
             public int Key = 552;
+            public class PersonModel {
+                public int Key { get; set; }
+            }
         }
         public void Save()
         {

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="PersonDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticModelDao.cs" />
     <Compile Include="UserDao.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

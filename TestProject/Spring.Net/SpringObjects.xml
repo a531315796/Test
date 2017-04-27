@@ -2,8 +2,10 @@
 <objects>
 
   <object id="PersonDao" type="Dao.PersonDao, Dao"></object>
-  <object id="Person" type="Dao.PersonDao+Person, Dao" ></object>/>
+  <object id="Person" type="Dao.PersonDao+Person, Dao" ></object>
+  <object id="PersonModel" type="Dao.PersonDao+Person+PersonModel, Dao" ></object>
   <object id="UserDao" type="Dao.UserDao,Dao"></object>
+  <object id="staticObjectsFactory" type="Dao.UserDao, Dao" factory-method="CreateInstance"/>
 
 </objects>
 

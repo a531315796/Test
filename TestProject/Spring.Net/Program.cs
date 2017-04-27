@@ -16,8 +16,8 @@ namespace Spring.Net
     {
         static void Main(string[] args)
         {
-            Function();
-            //XmlFactory();
+            //Function();
+            XmlFactory();
             //FactoryMethod();
             //IoCMethod();
             //NormalMethod();
@@ -29,11 +29,11 @@ namespace Spring.Net
             Console.WriteLine(b);
         }
 
-        private static void XmlFactory() {
-            
+        private static void XmlFactory()
+        {
             var path =System.Environment.CurrentDirectory+ @"\SpringObjects.xml";
             MyXmlFactory xml = new MyXmlFactory(path);
-            Console.WriteLine(xml.GetObject("PersonDao").ToString());
+            Console.WriteLine(xml.GetObject("staticObjectsFactory").ToString());
         }
 
         private static void NormalMethod()
@@ -52,28 +52,34 @@ namespace Spring.Net
 
         private static void IoCMethod()
         {
-            //string[] xmlFiles = new string[]
-            //{
-            //    "assembly://Spring.Net/Spring.Net/SpringObjects.xml"
-            //};
-            //IApplicationContext context = new XmlApplicationContext(xmlFiles);
-
-            //IObjectFactory factory = (IObjectFactory)context;
-            //var personDao = factory.GetObject("PersonDao") as IPersonDao;
-            //if (personDao != null)
-            //{
-            //    personDao.Save();
-            //    Console.WriteLine("我是IoC方法");
-            //}
-            //Console.ReadLine();
             IApplicationContext ctx = ContextRegistry.GetContext();
             IPersonDao dao = ctx.GetObject("PersonDao") as IPersonDao;
-            PersonDao.Person dao1 = ctx.GetObject("Person") as PersonDao.Person;
+            PersonDao.Person person = ctx.GetObject("Person") as PersonDao.Person;
+            PersonDao.Person.PersonModel personModel = ctx.GetObject("PersonModel") as PersonDao.Person.PersonModel;
             if (dao != null)
             {
                 dao.Save();
                 Console.WriteLine("我是IoC方法");
             }
+        }
+
+
+        private static void IoCMethod1()
+        {
+            string[] xmlFiles = new string[]
+            {
+                "assembly://Spring.Net/Spring.Net/SpringObjects.xml"
+            };
+            IApplicationContext context = new XmlApplicationContext(xmlFiles);
+
+            IObjectFactory factory = (IObjectFactory)context;
+            var personDao = factory.GetObject("PersonDao") as IPersonDao;
+            if (personDao != null)
+            {
+                personDao.Save();
+                Console.WriteLine("我是IoC方法");
+            }
+            Console.ReadLine();
         }
     }
 }
